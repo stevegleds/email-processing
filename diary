@@ -1,0 +1,9 @@
+12 December 2016
+Added commonemails and unique emails py files
+05 December 2016
+Added code to collect emails surrounded by '<>'
+18 November 2016
+Have successfully exported email address to csv but all on one row. Need to separate by rows.
+15 November 2016
+following http://www.vineetdhanawat.com/blog/2012/06/how-to-extract-email-gmail-contents-as-text-using-imaplib-via-imap-in-python-3/
+this produces xml files.
