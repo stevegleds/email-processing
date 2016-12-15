@@ -46,7 +46,7 @@ def get_emails(source_file, output_file):
                     ignore += 1
                 else:
                     if count <10 :
-                        print('To: sample', count, i, i[4:])
+                        print('To: sample\t', count, '\t\t', i, '\t', i[4:])
                     emails.append(i[4:])
                     count += 1
             matchbracket = re.findall(r'To: <[\w\.-]+@[\w\.-]+', line)
@@ -55,7 +55,7 @@ def get_emails(source_file, output_file):
                     ignore += 1
                 else:
                     if countbrackets < 10:
-                        print('To: < sample', countbrackets, i, i[5:])
+                        print('To: < sample\t', countbrackets, '\t', i, "\t", i[5:])
                     emails.append(i[5:])
                     countbrackets += 1
             matchrecipient = re.findall(r'rfc822; [\w\.-]+@[\w\.-]+', line)
@@ -64,7 +64,7 @@ def get_emails(source_file, output_file):
                     ignore += 1
                 else:
                     if countrecipients < 10:
-                        print('RFC recipient found:', countrecipients, i, i[8:])
+                        print('RFC recipient found:\t', countrecipients, '\t', i, '\t', i[8:])
                     emails.append(i[8:])
                     countrecipients += 1
         print('We found ', count + countbrackets + countrecipients, 'email addresses and ignored', ignore)
