@@ -1,5 +1,6 @@
 15 December 2016
 Added code to 'remove bounces to check date on files'
+Created functions to process file (filenane directory management and date checking) and for finding emails)
 14 December 2016
 Created code to identify unsubs and new subs
 12 December 2016
