@@ -22,9 +22,6 @@ def process_sourcefile(source_filename, old_file):
         if response != 'Y':
             raise SystemExit
 
-process_sourcefile(bounces_input_filename, old_file)
-process_sourcefile(complaints_input_filename, old_file)
-
 def get_emails(source_file, output_file):
     # Parameters are the source file .mbox and the output file .csv
     # The files are created from within the function so there is no output from the function
@@ -77,5 +74,7 @@ def get_emails(source_file, output_file):
             wr.writerow([email])
         emailsfile.close()
 
+process_sourcefile(bounces_input_filename, old_file)
+process_sourcefile(complaints_input_filename, old_file)
 get_emails(bounces_input_filename, bounces_output_filename)
 get_emails(complaints_input_filename, complaints_output_filename)

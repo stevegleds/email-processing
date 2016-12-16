@@ -1,13 +1,23 @@
-import re
+'''
+Identifies new and deleted subscribers by comparing previous subscriber list with latest subscriber list
+new_emails_filename is the latest export from openemm
+previous_emails_filename is the previous export
+Add the required filename for deleted and nes_sub files
+Open new subscriber csv file and convert to table before sending.
+'''
 import csv
-import pandas as pd
 import os
+
 new_emails_filename = 'new.csv'
-new_emails_file = os.path.join('', new_emails_filename)
 previous_emails_filename = "prev.csv"
+deleted_filename = 'deleted_emails.csv'
+new_sub_filename = 'new_subscribers.csv'
+
+new_emails_file = os.path.join('', new_emails_filename)
 previous_emails_file = os.path.join('', previous_emails_filename)
 previous_emails_only = []
 new_emails_only =[]
+unsubscribed_emails = []
 print("filenames are: ", new_emails_file, previous_emails_file)
 
 def parse(raw_file, delimiter):
@@ -39,37 +49,31 @@ def parse(raw_file, delimiter):
     opened_file.close()
     return parsed_data
 
+# create list containing only email addresses
 previous_emails_list = parse(previous_emails_file, ',')
 for contact in previous_emails_list:
     previous_emails_only.append(contact['email'].lower())
-
 print('previous emails are:', previous_emails_only)
 
+# create list containing new email addresses
 new_emails_list = parse(new_emails_file, ',')
 for contact in new_emails_list:
     new_emails_only.append(contact['email'].lower())
 
-def create_new_subcribers(newsub_set, new_emails_list):
+def create_new_subscribers(newsub_set, new_emails_list):
+    # Creates new list with full details
     newsub_details = []
     print('new emails list is:', new_emails_list)
     print(type(new_emails_list))
     for contact in new_emails_list:
         if contact['email'] in newsub_set:
             newsub_details.append(contact['countrycode'] + ',' + contact['language']+ ',' + contact['email']+ ',' + contact['firstname']+ ',' + contact['lastname'])
-
-
     print(type(newsub_details))
     return newsub_details
-# with open(new_emails_file, 'r', encoding='utf-8') as fa:
-#     for line in fa:
-#         new_emails_list.append(line.lower())
 
 new_emails_only = list(set(new_emails_only))  # Remove duplicates
 print('Current list has:', len(new_emails_only), 'emails')
 
-# with open(previous_emails_file, 'r', encoding='utf-8') as fp:
-#     for line in fp:
-#         previous_emails_list.append(line)
 
 previous_emails_only = list(set(previous_emails_only))  # Remove duplicates
 print('The previous list had: ',len(previous_emails_only), 'emails.')
@@ -84,14 +88,21 @@ print('current set is:', len(current_set), 'previous set was: ', len(previous_se
 print(len(unsub_set))
 print('they are:', unsub_set)
 print('new subscribers are:', newsub_set)
-newsub_details = create_new_subcribers(newsub_set, new_emails_list)
+newsub_details = create_new_subscribers(newsub_set, new_emails_list)
 print('new sub details are: ', newsub_details)
-emailsfile = open('new_subscribers.csv', "w", newline='', encoding='utf-8') # newline = '' to prevent blank lines being inserted
+
+emailsfile = open(new_sub_filename, "w", newline='', encoding='utf-8') # newline = '' to prevent blank lines being inserted
 wr = csv.writer(emailsfile, quoting=csv.QUOTE_ALL)
 for contact in newsub_details:
    wr.writerow([contact])
 emailsfile.close()
 
-# TODO tidy up code.
-# TODO export unsubscribers to csv file
+emailsfile = open(deleted_filename, "w", newline='', encoding='utf-8') # newline = '' to prevent blank lines being inserted
+wr = csv.writer(emailsfile, quoting=csv.QUOTE_ALL)
+for contact in unsub_set:
+   wr.writerow([contact])
+emailsfile.close()
+
 # TODO add comments
+# TODO create functions
+# TODO create unsub file

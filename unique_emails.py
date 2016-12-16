@@ -1,10 +1,17 @@
-import re
+'''
+Creates file containing emails from main file not contained in secondary file.
+This takes two files all_emails and sent_emails and returns new file with emails in sent_emails removed from all_emails file
+Specify the two source files and the output file at the start
+'''
 import csv
 import os
-all_emails_filename = 'allsubs_nojp.csv'  # this is a test file
+all_emails_filename = 'sendgrid_suppression_bounces161216_emailsonly.csv'  # this is full list of subscribers from OpenEMM
+sent_emails_filename = 'bounced_emails.csv'  # these are emails that we have sent already. Need to remove from the list
+output_filename = 'sendgrid_net_bounces.csv'
+
 all_emails_file = os.path.join('', all_emails_filename)
-sent_emails_filename = 'dec_send_list.txt'
 sent_emails_file = os.path.join('', sent_emails_filename)
+output_file = os.path.join('', output_filename)
 all_emails_list = []
 sent_emails_list = []
 
@@ -33,8 +40,9 @@ print('Total unsent emails:', len(unsent_emails_set))
 #  Create csv file of unsent emails
 unsent_emails_list = list(unsent_emails_set)
 unsent_emails_list.insert(0, 'email')  # Add title to first row for import
-emailsfile = open('unsent_emails.csv', "w", newline='', encoding='utf-8')  # newline = '' to prevent blank lines being inserted
-wr = csv.writer(emailsfile, quoting=csv.QUOTE_ALL)
+#  Write unsent email address to output file
+output_file = open(output_file, "w", newline='', encoding='utf-8')  # newline = '' to prevent blank lines being inserted
+wr = csv.writer(output_file, quoting=csv.QUOTE_ALL)
 for email in unsent_emails_list:
     wr.writerow([email])
-emailsfile.close()
+output_file.close()
