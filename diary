@@ -1,3 +1,5 @@
+16 December 2016
+Add file to check format of emails
 15 December 2016
 Added code to 'remove bounces to check date on files'
 Created functions to process file (filenane directory management and date checking) and for finding emails)
