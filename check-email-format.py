@@ -39,15 +39,18 @@ def check_email_format(source_file, output_file):
             if count < 10:
                 print(line)
             emails_checked += 1
-            match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', line)
+            # match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', line)
+            match = re.match(r'^[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}$', line)
             if match == None :
                 pass
-            elif match.group()[:3] == 'www':
-                print('www', match.group())
+                print(count, 'bad!!')
+                print(line)
             else:
                 count += 1
                 if count < 10:
-                    print(match.group())
+                    pass
+                    # print(match.group())
+                    # print(match)
                 emails.append(match.group())
         print('We found ', count, 'valid email addresses and ignored', emails_checked - count)
         emails = list(set(emails))  # Remove duplicates
