@@ -1,3 +1,4 @@
+# Used to produce a csv of bounces and complaints from a text file. Normally used for the .mbox files produced by Gmail's takeout.
 import re
 import csv
 import os
@@ -19,8 +20,12 @@ def process_sourcefile(source_filename, old_file):
     if old_file:
         print('Your file is old, are you sure you want to continue?')
         response = input('Enter Y to continue. Any other input will quit.')
-        if response != 'Y':
+        if response == 'Y' or response == 'y':
+            print('Continuing...')
+        else:
+            print('Quitting...')
             raise SystemExit
+
 
 def get_emails(source_file, output_file):
     # Parameters are the source file .mbox and the output file .csv
@@ -73,6 +78,7 @@ def get_emails(source_file, output_file):
         for email in emails:
             wr.writerow([email])
         emailsfile.close()
+        print('emails file closed', bounces_output_filename)
 
 process_sourcefile(bounces_input_filename, old_file)
 process_sourcefile(complaints_input_filename, old_file)
