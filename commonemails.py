@@ -1,20 +1,24 @@
 # Creates sets of email addresses from two files and uses set '&' to find common emails
+# Each file should contain only email addresses
 import os
 import datetime
 import csv
 
-first_filename = 'suppression_bounces161219emailsonly.csv'
-second_filename = 'allsubs_nojp_3unsubs.csv'
-output_file = 'common_emails.csv'
+# no paths required here
+# Specify just the filenames. Process_sourcefile() will deal with paths and also check if the files are up to date.
+first_filename = 'export170109emailsonly.csv'
+second_filename = 'suppression_bounces_email_only_full.csv'
+output_file = os.path.join('data','common_emails.csv')
 print("filenames are: ", first_filename, second_filename)
 
 first_list = []
 second_list = []
 old_file = False  # Used to test if we are using an out of date file. This means we have forgotten to copy the new gmail export file mbox.
-# Specify just the filenames. Process_sourcefile() will deal with paths and also check if the files are up to date.
+
+
 
 def process_sourcefile(source_filename, old_file):
-    source_file = os.path.join('', source_filename)
+    source_file = os.path.join('data', source_filename)
     source_modified_date = datetime.date.fromtimestamp(os.path.getmtime(source_file))
     print('today is:', datetime.date.today(), 'file is: ', source_modified_date)
     if datetime.date.today() != source_modified_date:
@@ -25,8 +29,11 @@ def process_sourcefile(source_filename, old_file):
         response = input('Enter Y to continue. Any other input will quit.')
         if response.lower() != 'y':
             raise SystemExit
+    return source_file
 
-process_sourcefile(first_filename, old_file)
+first_filename = process_sourcefile(first_filename, old_file)
+second_filename = process_sourcefile(second_filename, old_file)
+
 with open(first_filename, 'r', encoding='utf-8') as f:
     for line in f:
         first_list.append(line)
