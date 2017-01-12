@@ -1,3 +1,5 @@
+12 January 2017
+Updated find new and deleted to create functions, use 'with' to handle large files
 09 January 2017
 Added code to split files into parts
 Updated commonemails code
