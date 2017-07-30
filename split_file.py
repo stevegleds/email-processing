@@ -1,5 +1,9 @@
 '''
 Takes a large file and splits into smaller files
+It was created to split email csv files that Openemm rejected because of some bad email.
+Some of the parts would work leaving a sub part that contained the bad data.
+Enter the source and destination files and adjust the size parameter to the required size of each file
+For the email import the first line needs to be 'email' so this is added before the next batch of emails are added
 '''
 from itertools import chain
 import os
@@ -29,9 +33,9 @@ def split_file(filename, pattern, size):
             print(pattern.format(index))
 
 if __name__ == '__main__':
-    source_filename = 'H:\steve\gdrive\speedchecker\email-marketing\\reputation\sendgrid\weed20170609checkedpart.csvpart_003.csv'  # this is full list of subscribers from OpenEMM
-    destination_filename = 'H:\steve\gdrive\speedchecker\email-marketing\\reputation\sendgrid\weed20170609checkedpart003.csv'
+    source_filename = 'H:\steve\gdrive\speedchecker\email-marketing\\reputation\sendgrid\weedinvalid20170730.csv'  # this is full list of subscribers from OpenEMM
+    destination_filename = 'H:\steve\gdrive\speedchecker\email-marketing\\reputation\sendgrid\weedinvalid20170730part10000.csv'
     source_file = os.path.join('', source_filename)
     print('Source file is:', source_file)
     pattern = destination_filename + 'part_{0:03d}.csv'
-    split_file(source_file, pattern, 100)
+    split_file(source_file, pattern, 10000)
