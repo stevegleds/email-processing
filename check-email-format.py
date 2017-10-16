@@ -4,8 +4,8 @@ import os
 import datetime
 old_file = False  # Used to test if we are using an out of date file. This means we have forgotten to copy the new gmail export file mbox.
 # Specify just the filenames. Process_sourcefile() will deal with paths and also check if the files are up to date.
-email_input_filename = 'H:\steve\gdrive\speedchecker\email-marketing\\reputation\sendgrid\weed20170609.csv'
-email_output_filename = 'H:\steve\gdrive\speedchecker\email-marketing\\reputation\sendgrid\weed20170609checked.csv'
+email_input_filename = 'weed20171016.csv'
+email_output_filename = 'weed20171016checked.csv'
 
 def process_sourcefile(source_filename, old_file):
     source_file = os.path.join('', source_filename)
