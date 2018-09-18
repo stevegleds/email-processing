@@ -35,9 +35,9 @@ def split_file(filename, pattern, size):
 
 
 if __name__ == '__main__':
-    source_filename = 'dormant_emails_removed_openemm_20180511.csv'  # this is full list of subscribers from OpenEMM
-    destination_filename = 'dormant_emails_removed_openemm_20180511.csv'
+    source_filename = 'weed20180918.csv'  # this is full list of subscribers from OpenEMM
+    destination_filename = 'weed20180918.csv'
     source_file = os.path.join('', source_filename)
     print('Source file is:', source_file)
     pattern = destination_filename + 'part_{0:03d}.csv'
-    split_file(source_file, pattern, 75000)
+    split_file(source_file, pattern, 1000)
