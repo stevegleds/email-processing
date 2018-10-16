@@ -1,10 +1,7 @@
-'''
-Identifies new and deleted subscribers by comparing previous subscriber list with latest subscriber list
-new_emails_filename is the latest export from openemm
-previous_emails_filename is the previous export
-Add the required filename for deleted and new_sub files
-Open new subscriber csv file and convert to table before sending.
-'''
+"""
+Checks urls in one file to see if any part appears in the host of the other file
+Then merges url info from test file to new file and adds found status.
+"""
 import csv
 import os
 
