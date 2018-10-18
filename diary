@@ -1,3 +1,5 @@
+18 October 2018
+18 October 2018 had ro remove encoding='utf-8' for one of the files I processed. Added it back
 16 October 2018
 Created find_text module to match urls from two files
 09 June 2017

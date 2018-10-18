@@ -1,19 +1,19 @@
-'''
+"""
 Identifies new and deleted subscribers by comparing previous subscriber list with latest subscriber list
-new_emails_filename is the latest export from openemm
-previous_emails_filename is the previous export
-Add the required filename for deleted and new_sub files
-Open new subscriber csv file and convert to table before sending.
-'''
+new_links_filename is a list of inbound urls
+old_links_filename is list of urls that have been previously checked
+Add the required filename for old nad new links
+add name for merged output file that contains merged info from old to new links file
+"""
 import csv
 import os
 
-new_links_filename = 'all_links.csv'
+new_links_filename = 'referring_page.csv'
 old_links_filename = "old_links.csv"
 new_links_file = os.path.join('data', new_links_filename)
 old_links_file = os.path.join('data', old_links_filename)
 print("filenames are: ", new_links_file, old_links_file)
-updated_links_filename = 'updated_new_links.csv'
+updated_links_filename = 'updated_referral_links.csv'
 old_urls_only = []
 new_urls_only = []
 
@@ -24,24 +24,26 @@ def parse(raw_file, delimiter):
     :param delimiter: specify delimiter #TODO add default arg : ','
     :return: parsed data list of dictionaries
     Parses a raw CSV file to a JSON-line object.
+    18 October 2018 had ro remove encoding='utf-8' for one of the files I processed. Added it back
     """
     # open csv file
     with open(raw_file, newline='', encoding='utf-8') as opened_file:
         # read csv file
         csv_data = csv.reader(opened_file, delimiter=delimiter)  # first delimiter is csv.reader variable name
         # csv_data object is now an iterator meaning we can get each element one at a time
-
         # build data structure to return parsed data
         parsed_data = []  # this list will store every row of data
-        fields = csv_data.__next__()  # this will be the column headers; we can use .next() because csv_data is an iterator
+        fields = csv_data.__next__()
+        # this will be the column headers; we can use .next() because csv_data is an iterator
         print(fields)
         fields[0] = 'Host'
         print(fields)
         for row in csv_data:
-            if row[1] == "":  # there is no text in the runner field so no data to process
+            if row[0] == "":  # there is no text field so no data to process
                 pass
             else:
-                parsed_data.append(dict(zip(fields, row)))  # Creates a new dict item for each row with col header as key and stores in a list
+                parsed_data.append(dict(zip(fields, row)))
+                # Creates a new dict item for each row with col header as key and stores in a list
             #  racer_count += 1  # This is number of racers not races
         # close csv file
         opened_file.close()
@@ -50,10 +52,10 @@ def parse(raw_file, delimiter):
 
 # create list containing only urls
 old_links_list = parse(old_links_file, ',')
-print(old_links_list)
+#  print('Old links list:', old_links_list)
 for link in old_links_list:
     old_urls_only.append(link['Host'].lower())
-print('previous urls are:', old_urls_only)
+#  print('previous urls are:', old_urls_only)
 
 # create list containing new urls
 new_links_list = parse(new_links_file, ',')
@@ -74,7 +76,7 @@ def create_new_links(old_list, new_list):
         comment = ""
         classification = ""
         if ',' in url['Host']:
-            url['Host'] = url['Host'].replace(',', '_')
+            url['Host'] = url['Host'].replace(',', '_sgxyz_')
         for link in old_list:
             if link['Host'] in url['Host']:
                 found = "Found"
@@ -82,9 +84,8 @@ def create_new_links(old_list, new_list):
                 disavow = link['Disavow']
                 comment = link['Comment']
                 classification = link['Classification']
-        new_links_details.append(url['Host'] + ',' + url['Last crawled'] + ',' + found + ',' + old_link + ','
+        new_links_details.append(url['Host'] + ',' + found + ',' + old_link + ','
                                   + disavow + ',' + comment + ',' + classification)
-    print(new_links_details)
     return new_links_details
 
 
